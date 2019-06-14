@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Smurf from './Smurf';
 
@@ -9,7 +10,7 @@ const StyledSmurfs = styled.div`
 
 class Smurfs extends Component {
   render() {
-    return (
+    if (this.props.smurfs[0]) return (
       <StyledSmurfs>
         <h1>Smurf Village</h1>
         <ul>
@@ -27,6 +28,11 @@ class Smurfs extends Component {
           })}
         </ul>
       </StyledSmurfs>
+    );
+    return (
+    <>
+      <h1>No smurfs added yet, {<Link to='/smurf-form'>Click Here</Link>} to add new smurf to the village</h1>
+    </>
     );
   }
 }
