@@ -51,6 +51,13 @@ class App extends Component {
       })
   }
 
+  deleteSmurf = (id) => {
+    axios.delete(`${url}/${id}`)
+      .then(() => {
+        this.fetchSmurfs()
+      })
+  }
+
   componentDidMount() {
     this.fetchSmurfs();
   }
@@ -70,6 +77,7 @@ class App extends Component {
             <Smurfs 
               {...props} 
               smurfs={this.state.smurfs} 
+              deleteSmurf={this.deleteSmurf}
             />)
           }
         />

@@ -21,7 +21,7 @@ const StyledInput = styled.input`
   }
 `
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   padding: .75rem 1.5rem;
   background: rgb(161, 21, 29);
   color: white;

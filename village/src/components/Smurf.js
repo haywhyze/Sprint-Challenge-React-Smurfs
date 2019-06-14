@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { StyledButton } from './SmurfForm';
 
 const StyledSmurf = styled.div`
   box-shadow: 0 0 1rem rgba(0,0,0,.5);
@@ -40,6 +41,7 @@ const Smurf = props => {
       <StyledName>{props.name}</StyledName>
       <StyledHeight><strong>{props.height} tall</strong></StyledHeight>
       <StyledAge>{props.age} smurf years old</StyledAge>
+      <StyledButton onClick={() => props.deleteSmurf(props.id)}>Delete</StyledButton>
     </StyledSmurf>
   );
 };
