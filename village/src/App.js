@@ -23,6 +23,7 @@ class App extends Component {
     this.state = {
       smurfs: [],
       loading: false,
+      errMessage: null,
     };
   }
   // add any needed code to ensure that the smurfs collection exists on state and it has data coming from the server
@@ -30,15 +31,21 @@ class App extends Component {
   // You'll need to make sure you have the right properties on state and pass them down to props.
 
   fetchSmurfs = () => {
-    this.setState({ isLoading: true })
+    this.setState({ loading: true })
     axios.get(url)
       .then(response => {
         this.setState({
           smurfs: response.data,
+          errMessage: null
         })
       })
       .catch(error => {
-        error.response && console.error(error.response.statusText)
+        
+        error.response ? this.setState({
+          errMessage: error.response.statusText
+        }) : this.setState({
+          errMessage: error.message
+        })
       })
       .finally(()=> this.setState({loading: false}))
   }
@@ -46,16 +53,35 @@ class App extends Component {
   addSmurf = (newSmurf) => {
     this.setState({ loading: true })
     axios.post(url, newSmurf)
-      .then(() => {
-        this.fetchSmurfs()
+      .then((response) => {
+        this.setState({
+          smurfs: response.data,
+          errMessage: null
+        })
       })
+      .catch(error => {
+        error.response && console.error(error.response.statusText)
+        error.response && this.setState({
+          errMessage: error.response.statusText
+        })
+      })
+      .finally(()=> this.setState({loading: false}))
   }
 
   deleteSmurf = (id) => {
     axios.delete(`${url}/${id}`)
-      .then(() => {
-        this.fetchSmurfs()
+      .then((response) => {
+        this.setState({
+          smurfs: response.data,
+          errMessage: null
+        })
+      }).catch(error => {
+        error.response && console.error(error.response.statusText)
+        error.response && this.setState({
+          errMessage: error.response.statusText
+        })
       })
+      .finally(()=> this.setState({loading: false}))
   }
 
   componentDidMount() {
@@ -63,6 +89,9 @@ class App extends Component {
   }
 
   render() {
+    const { loading, errMessage } = this.state;
+    if (loading) return (<h1>Loading...</h1>)
+    if (errMessage) return (<h1>{errMessage}</h1>)
     return (
       <Router>
         <div className="App">
