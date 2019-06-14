@@ -33,6 +33,14 @@ class App extends Component {
       .finally(()=> this.setState({loading: false}))
   }
 
+  addSmurf = (newSmurf) => {
+    this.setState({ loading: true })
+    axios.post(url, newSmurf)
+      .then(() => {
+        this.fetchSmurfs()
+      })
+  }
+
   componentDidMount() {
     this.fetchSmurfs();
   }
@@ -40,7 +48,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <SmurfForm />
+        <SmurfForm addSmurf={this.addSmurf}/>
         <Smurfs smurfs={this.state.smurfs} />
       </div>
     );
