@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { StyledButton } from './SmurfForm';
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`
 
 const StyledSmurf = styled.div`
   box-shadow: 0 0 1rem rgba(0,0,0,.5);
@@ -37,12 +42,12 @@ const StyledHeight = styled.p`
 
 const Smurf = props => {
   return (
-    <StyledSmurf>
+    <StyledLink to={`/smurf/${props.id}`}><StyledSmurf>
       <StyledName>{props.name}</StyledName>
       <StyledHeight><strong>{props.height} tall</strong></StyledHeight>
       <StyledAge>{props.age} smurf years old</StyledAge>
       <StyledButton onClick={() => props.deleteSmurf(props.id)}>Delete</StyledButton>
-    </StyledSmurf>
+    </StyledSmurf></StyledLink>
   );
 };
 

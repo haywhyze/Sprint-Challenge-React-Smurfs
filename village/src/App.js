@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Route, NavLink, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
 import './App.css';
 import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
+import Smurf from './components/Smurf';
 
 const url = 'http://localhost:3333/smurfs';
 const StyledNavLinks = styled(NavLink)`
@@ -89,6 +90,24 @@ class App extends Component {
   }
 
   render() {
+    const SingleSmurf = ({ match }) => {
+      let oneSmurf
+      if (this.state.smurfs[0])
+      {
+        oneSmurf = this.state.smurfs.filter(smurf => smurf.id === Number(match.params.id))[0];
+        if (oneSmurf)
+        return <Smurf 
+          name={oneSmurf.name}
+          id={oneSmurf.id}
+          age={oneSmurf.height}
+          height={oneSmurf.height}
+          key={oneSmurf.id}
+          deleteSmurf={this.deleteSmurf}
+        />
+        return <h1>Smurf Not Found. Pls go back <Link to='/'>home</Link></h1>
+      }
+      return null
+    }
     const { loading, errMessage } = this.state;
     if (loading) return (<h1>Loading...</h1>)
     if (errMessage) return (<h1>{errMessage}</h1>)
@@ -119,6 +138,11 @@ class App extends Component {
               addSmurf={this.addSmurf} 
             />)
           }
+        />
+        <Route
+          exact
+          path='/smurf/:id'
+          component={SingleSmurf}
         />
         </div>
       </Router>
